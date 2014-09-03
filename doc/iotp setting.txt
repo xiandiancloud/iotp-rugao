@@ -1,0 +1,57 @@
+﻿项目部署说明：
+
+1. 导入itop 项目（物联网工程）（编码utf-8）
+2.导入gateway通讯接口。(编码gbk，）
+------------------------------------
+3. 安装Oracle
+Oracle 11g 64 位.rar
+1）默认安装
+
+2）安装完成创建用户导入sql数据
+
+>sqlplus
+
+账号：SYSTEM
+密码：Orclpassw0rd（管理员密码，前面安装时设置的）
+
+创建用户（名称：iotp ，密码 iotppass;）：
+
+>show user;
+>create user iotp identified by iotppass;
+>grant create session to iotp;
+>grant create table to iotp;
+>grant create sequence to iotp;
+>grant update any table to iotp;
+>grant unlimited tablespace to iotp;
+
+用新用户登录
+
+>sqlplus
+
+账号：iotp
+密码：iotppass
+
+导入数据定义文件：
+>@E:\iot\iotp_ddl.sql
+导入数据文件：
+>@E:\iot\iotp_data.sql
+
+4. 修改Web应用的Oracle设置
+
+itop：
+	application.properties
+gateway
+	dbpool.xml
+
+5.  启动
+
+1）执行MainEntry（如有jar，启动gatway/start.bat）
+2）部署itop项目。
+3）登录主页：admin/111111
+
+
+
+
+
+
+
