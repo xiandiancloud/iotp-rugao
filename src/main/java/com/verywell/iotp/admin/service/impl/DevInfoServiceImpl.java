@@ -186,8 +186,8 @@ public class DevInfoServiceImpl extends BaseCrudServiceImpl<DevInfo, Long> imple
 	{
 		String resultCode = "0";
 		DevInfo devInfo = baseDao.findById(devId);
-
-		String serviceUrl = getServiceUrl(devInfo.getDevClassInfo().getDevClassGroupInfo().getGroupId());
+		Long devClassGroupId = devInfo.getDevClassInfo().getDevClassGroupInfo().getGroupId();
+		String serviceUrl = getServiceUrl(devClassGroupId);
 
 		if (serviceUrl != null)
 		{
@@ -206,6 +206,26 @@ public class DevInfoServiceImpl extends BaseCrudServiceImpl<DevInfo, Long> imple
 				params.put("index", "0");
 			}
 			resultCode = HttpUtil.URLGet(serviceUrl, params);
+			if (devClassGroupId.equals(DevClassGroupInfo.CLASS_GROUP_DOOR))
+			{
+				Thread.sleep(2000);
+				Map<String, String> paramss = new HashMap<String, String>();
+				paramss.put("deviceId", String.valueOf(devIds));
+				paramss.put("cmd", cmd);
+				paramss.put("macaddr", devInfo.getMacAddr());
+				if (value.indexOf(",") >= 0)
+				{
+					paramss.put("value", "0");
+					paramss.put("index", value.split(",")[1]);
+				}
+				else
+				{
+					paramss.put("value", "0");
+					paramss.put("index", "0");
+				}
+				HttpUtil.URLGet(serviceUrl, paramss);
+			}
+				
 		}
 		devInfo.setDevStatus(new Integer(value));
 		baseDao.update(devInfo);//Update Data 

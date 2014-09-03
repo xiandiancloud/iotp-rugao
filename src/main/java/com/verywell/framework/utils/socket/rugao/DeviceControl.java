@@ -170,7 +170,7 @@ public class DeviceControl {
 	{
 
 		//0,1 表示设备类型；第2 标书数据长度，
-		int[] request = {0x55, 0xaa, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+		int[] request = {0x55, 0xaa, 0x03, 0x00, 0x00, 0x00, 0x00};
 		//第2位表示命令
 		request[3] = statusCmd;
 		//第4,5为表示设备ID
@@ -257,7 +257,7 @@ public class DeviceControl {
 	public static int[] getDoorCmds(int statusCmd, int devId)
 	{
 		//0,1 表示设备类型
-		int[] request = {0x02, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00};		
+		int[] request = {0x02, 0x05, 0x00, 0x00, 0x00, 0x00};		
 		//第2,3为表示设备ID
 		request[2] = 0x00;
 		request[3] = devId;
@@ -309,7 +309,7 @@ public class DeviceControl {
 		{
 			return Dev_Curtain_Close_CMD;
 		}
-		if (value == Dev_Open)
+		if (value == Dev_Stop)
 		{
 			return Dev_Curtain_Stop_CMD;
 		}

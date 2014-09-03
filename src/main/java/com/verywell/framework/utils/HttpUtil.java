@@ -273,9 +273,9 @@ public class HttpUtil
 	{		
 		
 		System.out.println("params: " + params);
-//		String result = DeviceControl.control(url, params);
+		String result = DeviceControl.control(url, params);
 //		System.out.println("result ------ : " + result);
-		return "1";
+		return result;
 //		if (pocLight(url, params, enc).equalsIgnoreCase("1"))
 //		{
 //			return "1";
