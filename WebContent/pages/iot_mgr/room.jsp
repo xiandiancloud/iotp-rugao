@@ -45,7 +45,7 @@
 	<div class="div_map table_div" style="height:100%;">
 		<img src="${ctx}/images/${roomInfo.roomImage}" width="100%">
 		<c:forEach var="dev" items="${devList}">
-			<div id="dev_${dev.devId}" class="${dev.currentClass }" style="left:${dev.positionX/100}%; top:${dev.positionY/100}%;" onclick="showDevDetail('${dev.devId}',event)">
+			<%-- <div id="dev_${dev.devId}" class="${dev.currentClass}" style="left:${dev.positionX/100}%; top:${dev.positionY/100}%;" onclick="showDevDetail('${dev.devId}',event)"> --%>
 			    <!-- <p class="action_p">(${dev.devName})</p> --> 
 			</div>
 		</c:forEach>
@@ -83,6 +83,7 @@
         }});
 		setInterval("doDevIcoEffect()",250);
 		setInterval("refreshData()",5000);
+		//setInterval("refreshLightData()",1000);
 	});
 	
 	function refreshDianbiao(){
@@ -120,10 +121,10 @@
 	    	else if($(this).hasClass("deng_open_02"))
 	    		$(this).attr("class","deng_open_01");
 	    	//门禁开启动态图标
-	    	if($(this).hasClass("door_open_01"))
+	    	/* if($(this).hasClass("door_open_01"))
 	    		$(this).attr("class","door_open_02");
 	    	else if($(this).hasClass("door_open_02"))
-	    		$(this).attr("class","door_open_01");
+	    		$(this).attr("class","door_open_01"); */
 	     	//传感器开启动态图标
 	    	if($(this).hasClass("chuanganqi_open_01"))
 	    		$(this).attr("class","chuanganqi_open_02");
@@ -173,8 +174,51 @@
 			 });
 		});
 	}
+	//定时更新光敏
+	function refreshLightData()
+	{
+		if ("${roomInfo.roomId}" == 1001)
+		{
+			$.getJSON("${ctx}/roomMonitor/devLightDetailList/${roomInfo.roomId}/4?r="+Math.random(), function(data){
+				 /* $.each(data, function(i, dev){
+				     var devId = dev.devId;
+				     var devStatus = dev.devStatus;
+				     var devAlarmStatus = dev.alarmStatus;
+				     $('#dev_'+devId).attr("class",dev.currentClass);
+				 }); */
+			});
+		}
+	}
 	
+	function enterLight()
+	{
+		if ("${roomInfo.roomId}" == 1001)
+		{
+			$.getJSON("${ctx}/roomMonitor/enterLight/${roomInfo.roomId}/4?r="+Math.random(), function(data){
+				 /* $.each(data, function(i, dev){
+				     var devId = dev.devId;
+				     var devStatus = dev.devStatus;
+				     var devAlarmStatus = dev.alarmStatus;
+				     $('#dev_'+devId).attr("class",dev.currentClass);
+				 }); */
+			});
+		}
+	}
 	
+	function leaveLight()
+	{
+		if ("${roomInfo.roomId}" == 1001)
+		{
+			$.getJSON("${ctx}/roomMonitor/leaveLight/${roomInfo.roomId}/4?r="+Math.random(), function(data){
+				 /* $.each(data, function(i, dev){
+				     var devId = dev.devId;
+				     var devStatus = dev.devStatus;
+				     var devAlarmStatus = dev.alarmStatus;
+				     $('#dev_'+devId).attr("class",dev.currentClass);
+				 }); */
+			});
+		}
+	}
 	//展示设备详细信息
 	function showDevDetail(devId,event)
 	{
@@ -258,6 +302,40 @@
 		stopBubble(event);
 	}
 	
+	//设备开关 1-开 0-关
+	function dhlswitchDev(devId,switchFlag,event)
+	{
+		$.getJSON("${ctx}/roomMonitor/switchDev/"+devId+"/"+switchFlag+"?r="+Math.random(), function(result){
+			if(result=='1')
+			{
+				//alert('操作成功！');
+				$("#tip_"+currentShowDevId).remove();
+			}
+			else
+			{
+				alert('操作失败！');
+			}
+		});
+		stopBubble(event);
+		leaveLight();
+	}
+	
+	function curtainDev(devId,switchFlag,event)
+	{
+		$.getJSON("${ctx}/roomMonitor/curtainDev/"+devId+"/"+switchFlag+"?r="+Math.random(), function(result){
+			if(result=='1')
+			{
+				//alert('操作成功！');
+				$("#tip_"+currentShowDevId).remove();
+			}
+			else
+			{
+				alert('操作失败！');
+			}
+		});
+		stopBubble(event);
+		leaveLight();
+	}
 	//设备开关 1-开 0-关
 	function sendCmd(devId,cmd,value,event)
 	{

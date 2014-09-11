@@ -97,15 +97,15 @@ values (7, '´°Á±µç»ú7', null, 5614083, 1001, null, '192.168.1.1', '7', 1, 3950, 
 insert into DEV_INFO (dev_id, dev_name, dev_desc, dev_class_id, room_id, dev_role, network_addr, mac_addr, dev_status, position_x, position_y, alarm_status, alarm_receiver, alaram_switch, create_by, create_time, last_modify_by, last_modify_time)
 values (8, '´°Á±µç»ú8', null, 5614083, 1001, null, '192.168.1.1', '8', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
 insert into DEV_INFO (dev_id, dev_name, dev_desc, dev_class_id, room_id, dev_role, network_addr, mac_addr, dev_status, position_x, position_y, alarm_status, alarm_receiver, alaram_switch, create_by, create_time, last_modify_by, last_modify_time)
-values (9, 'µÆ¿Ø1', null, 66816, 1001, null, '192.168.1.1', '19', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
+values (9, 'µÆ¿Ø1', null, 66816, 1001, null, '192.168.1.1', '9', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
 insert into DEV_INFO (dev_id, dev_name, dev_desc, dev_class_id, room_id, dev_role, network_addr, mac_addr, dev_status, position_x, position_y, alarm_status, alarm_receiver, alaram_switch, create_by, create_time, last_modify_by, last_modify_time)
-values (10, 'µÆ¿Ø2', null, 66816, 1001, null, '192.168.1.1', '18', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
+values (10, 'µÆ¿Ø2', null, 66816, 1001, null, '192.168.1.1', '10', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
 insert into DEV_INFO (dev_id, dev_name, dev_desc, dev_class_id, room_id, dev_role, network_addr, mac_addr, dev_status, position_x, position_y, alarm_status, alarm_receiver, alaram_switch, create_by, create_time, last_modify_by, last_modify_time)
-values (11, 'ÃÅ½û1', null, 132352, 1001, null, '192.168.1.1', '16', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
+values (11, 'ÃÅ½û1', null, 132352, 1001, null, '192.168.1.1', '11', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
 insert into DEV_INFO (dev_id, dev_name, dev_desc, dev_class_id, room_id, dev_role, network_addr, mac_addr, dev_status, position_x, position_y, alarm_status, alarm_receiver, alaram_switch, create_by, create_time, last_modify_by, last_modify_time)
-values (12, 'µÆ¿Ø1', null, 66816, 1002, null, '192.168.1.1', '17', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
+values (12, 'µÆ¿Ø1', null, 66816, 1002, null, '192.168.1.1', '12', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
 insert into DEV_INFO (dev_id, dev_name, dev_desc, dev_class_id, room_id, dev_role, network_addr, mac_addr, dev_status, position_x, position_y, alarm_status, alarm_receiver, alaram_switch, create_by, create_time, last_modify_by, last_modify_time)
-values (13, 'ÃÅ½û1', null, 132352, 1002, null, '192.168.1.1', '17', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
+values (13, 'ÃÅ½û1', null, 132352, 1002, null, '192.168.1.1', '13', 1, 3950, 371, 0, 'admin', 1, null, null, null, null);
 commit;
 prompt 3 records loaded
 prompt Loading DEV_ALARM_CONFIG_INFO...

@@ -56,6 +56,9 @@ public class CommonConstants
 	/** 灯光服务地址 */
 	@Property(key = "door_service")
 	public static String DOOR_SERVICE;
+	/** 光敏服务地址 */
+	@Property(key = "guang_service")
+	public static String GUANG_SERVICE;
 	
 	/** 空调服务地址 */
 	@Property(key = "air_conditioner_service")

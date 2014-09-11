@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.verywell.framework.commons.ResultInfo;
 import com.verywell.framework.controller.BaseController;
+import com.verywell.framework.utils.socket.rugao.DeviceControl;
 import com.verywell.iotp.admin.constants.CommonConstants;
 import com.verywell.iotp.admin.constants.RequestNameConstants;
 import com.verywell.iotp.admin.dto.DevInfoDTO;
@@ -103,6 +104,119 @@ public class RoomMonitorController extends BaseController
 		return resultList;
 	}
 
+	/**
+	 * 根据房间获得设备信息（Ajax）
+	 * 
+	 * 主界面定时刷新设备状态使用
+	 * 
+	 * @param request
+	 * @param model
+	 * @param roomId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/devLightDetailList/{roomId}/{classGroupId}")
+	@ResponseBody
+	public void getDevLightList(HttpServletRequest request, Model model, @PathVariable("roomId") Long roomId, @PathVariable("classGroupId") Long classGroupId) throws Exception
+	{
+		int[] value = DeviceControl.lightvalue;
+		if (value != null)
+		{
+			int openvalue = value[3];
+			//亮的时候，关闭所有窗帘
+			List<DevInfo> devList = devInfoService.findByClassGroupId(roomId, classGroupId);
+			// 该类型下的所有设备的id，逗号分隔，用于做批量控制
+			String devIds = "";
+			DevInfo devInfo = null; // 单个设备（显示屏、会议中控）
+			if (devList != null && devList.size() > 0)
+			{
+				devInfo = devList.get(0);
+				for (DevInfo dev : devList)
+				{
+					if (devIds.equals(""))
+						devIds += dev.getDevId();
+					else
+						devIds += ("," + dev.getDevId());
+				}
+			}
+			if (openvalue == 0x01)
+			{
+//				devInfoService.lightcontrollDev(devIds, CommonConstants.CMD_SWITCH, "0");//亮
+				devInfoService.controllDev(devIds, CommonConstants.CMD_SWITCH, "0");
+			}
+			else
+			{
+//				devInfoService.lightcontrollDev(devIds, CommonConstants.CMD_SWITCH, "1");//暗
+				devInfoService.controllDev(devIds, CommonConstants.CMD_SWITCH, "1");
+			}
+			
+		}
+	}
+	
+	/**
+	 *进入光敏
+	 */
+	@RequestMapping("/enterLight/{roomId}/{classGroupId}")
+	@ResponseBody
+	public void enterLight(HttpServletRequest request, Model model, @PathVariable("roomId") Long roomId, @PathVariable("classGroupId") Long classGroupId) throws Exception
+	{
+		int[] value = DeviceControl.lightvalue;
+		if (value != null)
+		{
+			//亮的时候，关闭所有窗帘
+			List<DevInfo> devList = devInfoService.findByClassGroupId(roomId, classGroupId);
+			// 该类型下的所有设备的id，逗号分隔，用于做批量控制
+			String devIds = "";
+			DevInfo devInfo = null; // 单个设备（显示屏、会议中控）
+			if (devList != null && devList.size() > 0)
+			{
+				devInfo = devList.get(0);
+				for (DevInfo dev : devList)
+				{
+					if (devIds.equals(""))
+						devIds += dev.getDevId();
+					else
+						devIds += ("," + dev.getDevId());
+				}
+			}
+			MyThread thread = MyThread.getInstance();
+			thread.setDevInfoService(devInfoService, devIds);
+			thread.setFlag(true);
+		}
+	}
+	
+	/**
+	 *进入光敏
+	 */
+	@RequestMapping("/leaveLight/{roomId}/{classGroupId}")
+	@ResponseBody
+	public void leaveLight(HttpServletRequest request, Model model, @PathVariable("roomId") Long roomId, @PathVariable("classGroupId") Long classGroupId) throws Exception
+	{
+		int[] value = DeviceControl.lightvalue;
+		if (value != null)
+		{
+			//亮的时候，关闭所有窗帘
+			List<DevInfo> devList = devInfoService.findByClassGroupId(roomId, classGroupId);
+			// 该类型下的所有设备的id，逗号分隔，用于做批量控制
+			String devIds = "";
+			DevInfo devInfo = null; // 单个设备（显示屏、会议中控）
+			if (devList != null && devList.size() > 0)
+			{
+				devInfo = devList.get(0);
+				for (DevInfo dev : devList)
+				{
+					if (devIds.equals(""))
+						devIds += dev.getDevId();
+					else
+						devIds += ("," + dev.getDevId());
+				}
+			}
+			MyThread thread = MyThread.getInstance();
+			thread.setDevInfoService(devInfoService, devIds);
+			thread.setFlag(false);
+		}
+	}
+	
 	/**
 	 * 根据房间和设备类型分组查询设备列表
 	 * 
@@ -220,6 +334,22 @@ public class RoomMonitorController extends BaseController
 		return devInfoService.controllDev(devIds, CommonConstants.CMD_SWITCH, switchFlag);
 	}
 
+	/**
+	 * 窗帘的全部开启跟关闭
+	 * 
+	 * @param request
+	 * @param model
+	 * @param devId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/curtainDev/{devIds}/{switchFlag}")
+	@ResponseBody
+	public String curtainDev(HttpServletRequest request, Model model, @PathVariable("devIds") String devIds, @PathVariable("switchFlag") String switchFlag)
+			throws Exception
+	{
+		return devInfoService.lightcontrollDev(devIds, CommonConstants.CMD_SWITCH, switchFlag);
+	}
 	/**
 	 * 设备控制
 	 * 

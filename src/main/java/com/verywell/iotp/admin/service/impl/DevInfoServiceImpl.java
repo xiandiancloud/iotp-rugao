@@ -144,6 +144,8 @@ public class DevInfoServiceImpl extends BaseCrudServiceImpl<DevInfo, Long> imple
 			return CommonConstants.CURTAIN_SERVICE;
 		else if (devClassGroupId.equals(DevClassGroupInfo.CLASS_GROUP_MUTIMEDIA))
 			return CommonConstants.MUTIMEDIA_SERVICE;
+		else if (devClassGroupId.equals(DevClassGroupInfo.CLASS_GROUP_GUANG))
+			return CommonConstants.GUANG_SERVICE;
 		return null;
 
 	}
@@ -181,12 +183,14 @@ public class DevInfoServiceImpl extends BaseCrudServiceImpl<DevInfo, Long> imple
 		}
 		
 	}
-
-	private String realcontrollDev(Long devId,String devIds, String cmd, String value)  throws Exception
+	
+	//光敏传感器，直接写死调用
+	@Override
+	public String lightcontrollDev(String devIds, String cmd, String value)  throws Exception
 	{
 		String resultCode = "0";
-		DevInfo devInfo = baseDao.findById(devId);
-		Long devClassGroupId = devInfo.getDevClassInfo().getDevClassGroupInfo().getGroupId();
+//		DevInfo devInfo = baseDao.findById(devId);
+		Long devClassGroupId = 8L;
 		String serviceUrl = getServiceUrl(devClassGroupId);
 
 		if (serviceUrl != null)
@@ -194,6 +198,39 @@ public class DevInfoServiceImpl extends BaseCrudServiceImpl<DevInfo, Long> imple
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("deviceId", String.valueOf(devIds));
 			params.put("cmd", cmd);
+			params.put("statusCmd", "1");
+			params.put("macaddr", "1");
+			if (value.indexOf(",") >= 0)
+			{
+				params.put("value", value.split(",")[0]);
+				params.put("index", value.split(",")[1]);
+			}
+			else
+			{
+				params.put("value", value);
+				params.put("index", "0");
+			}
+			resultCode = HttpUtil.URLGet(serviceUrl, params);
+			
+		}
+//		devInfo.setDevStatus(new Integer(value));
+//		baseDao.update(devInfo);//Update Data 
+//		devInfo = baseDao.findById(devId);
+		return resultCode;
+	}
+	
+	private String realcontrollDev(Long devId,String devIds, String cmd, String value)  throws Exception
+	{
+		String resultCode = "0";
+		DevInfo devInfo = baseDao.findById(devId);
+		Long devClassGroupId = devInfo.getDevClassInfo().getDevClassGroupInfo().getGroupId();
+		String serviceUrl = getServiceUrl(devClassGroupId);
+		if (serviceUrl != null)
+		{
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("deviceId", String.valueOf(devIds));
+			params.put("cmd", cmd);
+			params.put("statusCmd", "1");
 			params.put("macaddr", devInfo.getMacAddr());
 			if (value.indexOf(",") >= 0)
 			{
@@ -208,10 +245,11 @@ public class DevInfoServiceImpl extends BaseCrudServiceImpl<DevInfo, Long> imple
 			resultCode = HttpUtil.URLGet(serviceUrl, params);
 			if (devClassGroupId.equals(DevClassGroupInfo.CLASS_GROUP_DOOR))
 			{
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				Map<String, String> paramss = new HashMap<String, String>();
 				paramss.put("deviceId", String.valueOf(devIds));
 				paramss.put("cmd", cmd);
+				paramss.put("statusCmd", "0");
 				paramss.put("macaddr", devInfo.getMacAddr());
 				if (value.indexOf(",") >= 0)
 				{
@@ -225,7 +263,26 @@ public class DevInfoServiceImpl extends BaseCrudServiceImpl<DevInfo, Long> imple
 				}
 				HttpUtil.URLGet(serviceUrl, paramss);
 			}
-				
+			else if (devClassGroupId.equals(DevClassGroupInfo.CLASS_GROUP_LIGHT))
+			{
+				Thread.sleep(1000);				
+				Map<String, String> paramss = new HashMap<String, String>();
+				paramss.put("deviceId", String.valueOf(devIds));
+				paramss.put("cmd", cmd);
+				paramss.put("statusCmd", "0");
+				paramss.put("macaddr", devInfo.getMacAddr());
+				if (value.indexOf(",") >= 0)
+				{
+					paramss.put("value", "0");
+					paramss.put("index", value.split(",")[1]);
+				}
+				else
+				{
+					paramss.put("value", value);
+					paramss.put("index", "0");
+				}
+				HttpUtil.URLGet(serviceUrl, paramss);
+			}
 		}
 		devInfo.setDevStatus(new Integer(value));
 		baseDao.update(devInfo);//Update Data 

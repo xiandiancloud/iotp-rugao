@@ -78,6 +78,8 @@ public interface DevInfoService extends BaseCrudService<DevInfo, Long>
 	 */
 	String controllDev(String devIds, String cmd, String value) throws Exception;
 
+	public String lightcontrollDev(String devIds, String cmd, String value)  throws Exception;
+	
 	/**
 	 * 场景设置
 	 * 

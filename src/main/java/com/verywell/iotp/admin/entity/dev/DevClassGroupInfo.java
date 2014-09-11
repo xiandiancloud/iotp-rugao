@@ -29,6 +29,8 @@ public class DevClassGroupInfo implements Serializable
 	public static Long CLASS_GROUP_SCREEN = Long.valueOf(6);
 	/** 门禁 */
 	public static Long CLASS_GROUP_DOOR = Long.valueOf(7);
+	/** 光敏 */
+	public static Long CLASS_GROUP_GUANG = Long.valueOf(8);
 	
 	private static final long serialVersionUID = 1L;
 

@@ -37,7 +37,7 @@ public class SocketClientThread extends Thread {
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			e.printStackTrace();
 			return null;
 		}
 		return RunningSocket;
@@ -156,6 +156,7 @@ public class SocketClientThread extends Thread {
 				{
 					try
 					{
+//						System.out.println("-------------------"+got.length);
 						SocketService.receiveMessage(got);
 					}
 					catch(Exception exp)

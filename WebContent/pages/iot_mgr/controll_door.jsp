@@ -6,26 +6,27 @@
 <%@ include file="/common/header.jsp"%>
 </head>
 <body>
-<div style="width: 600px;">
+<div style="width: 200px;">
 <c:if test="${not empty resultList}">
-	<div style="border-bottom: solid 1px #cee0f4;padding-bottom: 2px">
+	<%-- <div style="border-bottom: solid 1px #cee0f4;padding-bottom: 2px">
 	    <button class="page_anniu" onclick="switchLight('${devIds}','1',event)">全部开启</button>
 		<button class="page_anniu" onclick="switchLight('${devIds}','0',event)">全部关闭</button>		
-	</div>
+	</div> --%>
 	<c:forEach var="item" items="${resultList}" varStatus="status">
 		<div style="display:inline-block;  float: left;text-align: center;border-right: solid 1px #cee0f4;padding: 5px;width: 135px">
 			<dl title="${item.devStatusDesc}">
-				<c:if test="${item.devStatus!='0'}">
+				<%-- <c:if test="${item.devStatus!='0'}">
 					<img id="${item.devId}_img" src="${ctx}/images/ico_door_open.png" />
 				</c:if>
 				<c:if test="${item.devStatus=='0'}">
 					<img id="${item.devId}_img" src="${ctx}/images/ico_door.png" />
-				</c:if>
+				</c:if> --%>
+				<img id="${item.devId}_img" src="${ctx}/images/door_menu.png" />
 			</dl>
 			<dl><b>${item.devName}</b></dl>
 			<dl>
 			    <button class="page_anniu" onclick="switchLight('${item.devId}','1',event)">开启</button>
-				<button class="page_anniu" onclick="switchLight('${item.devId}','0',event)">关闭</button>				
+				<%-- <button class="page_anniu" onclick="switchLight('${item.devId}','0',event)">关闭</button>	 --%>			
 			</dl>
 		</div>
 	</c:forEach>

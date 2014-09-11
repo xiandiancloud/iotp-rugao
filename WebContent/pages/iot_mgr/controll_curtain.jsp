@@ -6,21 +6,23 @@
 <%@ include file="/common/header.jsp"%>
 </head>
 <body>
-<div >
+<div style="height: 420px;width:780px;">
 <c:if test="${not empty resultList}">
 	<div style="border-bottom: solid 1px #cee0f4;padding-bottom: 2px">
-		<button class="page_anniu" onclick="switchDev('${devIds}','1',event)">全部1开启</button>
-		<button class="page_anniu" onclick="switchDev('${devIds}','0',event)">全部0关闭</button>
-		<button class="page_anniu" onclick="switchDev('${devIds}','2',event)">全部2停止转动</button>
+		<button class="page_anniu" onclick="curtainDev('${devIds}','0',event)">全部开启</button>
+		<button class="page_anniu" onclick="curtainDev('${devIds}','1',event)">全部关闭</button>
+		<button class="page_anniu" onclick="curtainDev('${devIds}','2',event)">全部停止转动</button>
+		<button class="page_anniu" onclick="enterLight()">进入自动</button>
+		<button class="page_anniu" onclick="leaveLight()">进入手动</button>
 	</div>
 	<c:forEach var="item" items="${resultList}" varStatus="status">
 		<div style="float: left;text-align: center;border-right: solid 1px #cee0f4;padding: 5px">
 			<dl><img src="${ctx}/images/chuanlian_open_big.png" /></dl>
 			<dl><b>${item.devName}</b></dl>
 			<dl>
-				<button class="page_anniu" onclick="switchDev('${item.devId}','1',event)">开启</button>
-				<button class="page_anniu" onclick="switchDev('${item.devId}','0',event)">关闭</button>
-				<button class="page_anniu" onclick="switchDev('${item.devId}','2',event)">停止转动</button>
+				<button class="page_anniu" onclick="dhlswitchDev('${item.devId}','1',event)">开启</button>
+				<button class="page_anniu" onclick="dhlswitchDev('${item.devId}','0',event)">关闭</button>
+				<button class="page_anniu" onclick="dhlswitchDev('${item.devId}','2',event)">停止转动</button>
 			</dl>
 			<%-- <dl style="margin-top: 10px">
 				<button class="page_anniu" onclick="switchDev('${item.devId}','1,1',event)">布帘开启</button>

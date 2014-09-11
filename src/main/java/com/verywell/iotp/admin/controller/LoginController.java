@@ -61,7 +61,7 @@ public class LoginController extends BaseController
 		// if (this.getLoginToken() != null)
 		// return "index";
 		int loginResultCode = sysLoginService.login(loginName, loginPwd, imgCheckCode, SYSTEM_ID, request);
-
+System.out.println("loginResultCode --------- "+loginResultCode);
 		if (loginResultCode == ResultConstants.LOGIN_SUCCESS)
 		{
 			return "index";

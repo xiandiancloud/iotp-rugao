@@ -34,7 +34,10 @@ public class DeviceControl {
 	private static String RequestURL_Light = "/lightService";
 	private static String RequestURL_Door = "/doorService";
 	private static String RequestURL_Curtain = "/curtainService";
-	
+	//如皋的光敏
+	private static String RequestURL_Guang = "/guangService";
+	//如皋临时增加
+	public static int[] lightvalue = new int[]{0x00,0x00,0x00,0x00,0x00,0x00};
 	
 	//Web 系统
 	//窗帘类型，类型存在数据库中
@@ -43,6 +46,8 @@ public class DeviceControl {
 	private static int Dev_Class_Door = 0x020500;
 	//灯逛类型，类型存在数据库中
 	private static int Dev_Class_Light = 0x010500;
+	//光敏，没有设备，不在数据库中
+	private static int Dev_Class_Guang = 0x010501;
 	
 	//Web系统(数据库) 开设备
 	private static int Dev_Open = 0x01;
@@ -111,8 +116,10 @@ public class DeviceControl {
 		int[] request = null;
 		if (devClass == Dev_Class_Light)
 		{
-			int statusCmd = getLigthStatus(valueCmd);
-			request = getLightCmds(statusCmd, valueDevId);
+			//int statusCmd = getLigthStatus(valueCmd);
+			String status = params.get("statusCmd");
+			int statusCmd = Integer.valueOf(status).intValue();	
+			request = getLightCmds2(valueCmd,statusCmd, valueDevId);
 		}
 		else if (devClass == Dev_Class_Curtain)
 		{
@@ -121,9 +128,15 @@ public class DeviceControl {
 		}
 		else if (devClass == Dev_Class_Door)
 		{
-			int statusCmd = getDoorStatus(valueCmd);
-			request = getDoorCmds(statusCmd, valueDevId);
-		}		
+			//int statusCmd = getDoorStatus(valueCmd);
+			String status = params.get("statusCmd");
+			int statusCmd = Integer.valueOf(status).intValue();	
+			request = getDoorCmds2(statusCmd, valueDevId);
+		}
+		else if (devClass == Dev_Class_Guang)
+		{
+			request = getGuangCmds2(valueCmd);
+		}
 		//debug
 	
 		
@@ -238,6 +251,135 @@ public class DeviceControl {
 		
 	}
 	
+	public static int[] getLightCmds2(int cmd,int statusCmd, int devId)
+	{
+		if (cmd == 1)
+		{
+			if (devId == 9)
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x08, 0xFF, 0x00,0x0C,0x04};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x09, 0xFF, 0x00,0x5d,0xc4};
+					return request;
+				}
+			}
+			else if (devId == 10)
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0a, 0xFF, 0x00,0xad,0xc4};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0b, 0xff, 0x00,0xfc,0x04};
+					return request;
+				}
+			}
+			else
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0C, 0xFF, 0x00,0x4D,0xC5};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0D, 0xFF, 0x00,0x1C,0x05};
+					return request;
+				}
+			}
+		}
+		else if (cmd == 0)
+		{
+			if (devId == 9)
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x08, 0x00, 0x00,0x4d,0xf4};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x09, 0x00, 0x00,0x1C,0x34};
+					return request;
+				}
+			}
+			else if (devId == 10)
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0b, 0x00, 0x00,0xbd,0xf4};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0a, 0x00, 0x00,0xec,0x34};
+					return request;
+				}
+			}
+			else
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0D, 0x00, 0x00,0x5D,0xF5};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0C, 0x00, 0x00,0x0C,0x35};
+					return request;
+				}
+			}
+		}
+		else
+		{
+			if (devId == 9)
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x08, 0xFF, 0x00,0x0C,0x04};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x09, 0x00, 0x00,0x1C,0x34};
+					return request;
+				}
+			}
+			else if (devId == 10)
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0a, 0xFF, 0x00,0xad,0xc4};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0b, 0x00, 0x00,0xbd,0xf4};
+					return request;
+				}
+			}
+			else
+			{
+				if (statusCmd == 1)
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0C, 0xFF, 0x00,0x4D,0xC5};
+					return request;
+				}
+				else
+				{
+					int[] request = {0x01, 0x05, 0x01, 0x0D, 0x00, 0x00,0x5D,0xF5};
+					return request;
+				}
+			}
+		}
+	}
 	
 	/**
 	 * door1#
@@ -268,8 +410,56 @@ public class DeviceControl {
 		
 	}
 	
+	public static int[] getDoorCmds2(int statusCmd, int devId)
+	{
+		if (statusCmd == 1)
+		{
+			//教室1
+			if (devId == 11)
+			{
+				int[] request = {0x01, 0x05, 0x01, 0x01, 0xFF, 0x00,0xDC,0x06};
+				return request;
+			}
+			else//教室2
+			{
+				int[] request = {0x01, 0x05, 0x01, 0x04, 0xFF, 0x00,0xCC,0x07};
+				return request;
+			}
+		}
+		else
+		{
+			//教室1
+			if (devId == 11)
+			{
+				int[] request = {0x01, 0x05, 0x01, 0x01, 0x00, 0x00,0x9D,0xF6};
+				return request;
+			}
+			else//教室2
+			{
+				int[] request = {0x01, 0x05, 0x01, 0x04, 0x00, 0x00,0x8D,0xF7};		
+				return request;
+			}
+		}
+	}
 	
-	
+	public static int[] getGuangCmds2(int statusCmd)
+	{
+		if (statusCmd == 0)//打开
+		{
+			int[] request = {0x55, 0xAA, 0x03, 0x01, 0x00, 0x00, 0x01};
+			return request;
+		}
+		else if (statusCmd == 1)//关闭
+		{
+			int[] request = {0x55, 0xAA, 0x03, 0x03, 0x00, 0x00, 0x03};
+			return request;
+		}
+		else// if (statusCmd == 2)
+		{
+			int[] request = {0x55, 0xAA, 0x03, 0x02, 0x00, 0x00, 0x02};
+			return request;
+		}
+	}
 	//////////////////////////////////////////////////////////////
 	
 	
@@ -290,6 +480,10 @@ public class DeviceControl {
 		if (strurl.contains(RequestURL_Curtain))
 		{
 			return Dev_Class_Curtain;
+		}
+		if (strurl.contains(RequestURL_Guang))
+		{
+			return Dev_Class_Guang;
 		}
 		return -1;
 	}
