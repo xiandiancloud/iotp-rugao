@@ -38,7 +38,7 @@ public class DeviceControl {
 	private static String RequestURL_Guang = "/guangService";
 	//如皋临时增加
 	public static int[] lightvalue = new int[]{0x00,0x00,0x00,0x00,0x00,0x00};
-	
+	public static int[] oldlightvalue = new int[]{0x00,0x00,0x00,0x00,0x00,0x00};
 	//Web 系统
 	//窗帘类型，类型存在数据库中
 	private static int Dev_Class_Curtain = 0x55AA03;
